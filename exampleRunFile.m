@@ -127,6 +127,6 @@ tptParam{1}.fmThres = 2;
 tptParam{1}.outlrThres = 5;
 
 % Track Particles
-[x,track] = funPSPT(fileInfo, beadParameter, tptParam);
+[x, track] = funTPT(fileInfo, beadParam, tptParam);
 
 save('resultsTPT.mat', 'x', 'track');

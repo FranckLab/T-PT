@@ -1,4 +1,4 @@
-function [track] = PSPT(varargin)
+function [track] = TPT(varargin)
 
 % Position based Single Particle Tracking function. Let the fun begin
 %
