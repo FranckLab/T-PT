@@ -97,7 +97,7 @@
 %   x:      Particle positions found for each 'c' particle at each 'time'                   
 %           frame
 %           
-%           x{time}{c} = particle positions at time frame in MxNxP format        
+%           x{time}{c} = particle positions at time frame in MxNxO format        
 %                   
 %   track:  Particles links between two consecutive image frames (t = to & 
 %           t = t0 + 1) for each 'c' particle at each time frame (t = time)

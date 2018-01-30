@@ -1,6 +1,27 @@
-function [pts] = radialcenter3dvec(img,x0,beadParameter);
-% WARNING: the code follows Matlabs x,y,z coordinate system (meshgrid).
-% Sorry, I know it can be very confusing.
+function [pts] = radialcenter3dvec(img, x0, beadParameter);
+% [pts] = radialcenter3dvec(img, x0, beadParameter) localizes particles to
+% sub-voxel accuracy using radial symmetry method based on
+%
+% Liu, Shu-Lin, et al. "Fast and high-accuracy localization for 
+% three-dimensional single-particle tracking." Scientific reports 3 
+% (2013): 2462.
+%
+% Note: Code modified from the radial symmetry code for 3D images provided 
+% by Shulin Liu
+%
+% INPUTS
+% -------------------------------------------------------------------------
+%   u: cell containing the input displacement field. (u{1:3} = {u_x, u_y,
+%   	u_z})
+%   thr: theshold for passing residiual (default = 2)
+%   epsilon: fluctuation level due to cross-correlation (default = 0.1)
+%
+% OUTPUTS
+% -------------------------------------------------------------------------
+%   u: cell containing the displacement field with outliers removed
+%   normFluctValues: normalized fluctuation values based on the universal
+%   outier test.
+%
 
 
 %% Parse Inputs
@@ -65,7 +86,7 @@ u=u./dimg;
 v=v./dimg;
 w=w./dimg;
 
-%% caculate the center of the particle
+%% Calculate the center of the particle
 A = zeros(3,3,nI);
 B = zeros(3,nI);
 
@@ -115,6 +136,7 @@ elseif forloop == 1;
 end
 
 
+% Switch to m,n,o format
 pts(:,2) = xyz(t+1)*a;
 pts(:,1) = xyz(t+2)*b;
 pts(:,3) = xyz(t+3)*c;
