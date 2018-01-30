@@ -22,6 +22,7 @@ if length(sSize) > 1 % Check at iter>1
     if uniqueSS == 5
         if lastDiff<0.0025 | ratioT<0.1 | currentSS>=maxSS
             iterCrit = 0;
+            sSize(end+1) = sSize(end);
         else
             iterCrit = 1;
             sSize(end+1) = sSize(end);
