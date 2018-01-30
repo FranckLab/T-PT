@@ -7,10 +7,6 @@ The Topology-based Particle Tracking (T-PT) is a single particle tracking algori
 * [Example data](https://drive.google.com/drive/folders/1dOVhKywxHJU4J4b4bpE2S5YIYsctZmdG?usp=sharing)
 * [Questions/Issues](https://github.com/FranckLab/T-PT/issues)
 * [Franck Lab](http://franck.engin.brown.edu)
- 
-
-### Input 3D Image Stack Requirements
-* The 3D image stack need to be saved in a 3 dimensional matrix (intensity values are stored at x, y and z position) in vol*.mat files.  
 
 ### Running included example case
 1. Make sure that the matlab code files are added to the path in Matlab.
