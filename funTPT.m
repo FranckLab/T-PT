@@ -110,7 +110,7 @@ function [x, track] = funTPT(varargin)
 
 
 %Parse inputs
-[fileInfo, beadParameter, psptParameter] = parseInputs(varargin{:});
+[fileInfo, beadParameter, tptParameter] = parseInputs(varargin{:});
 nChannel = length(fileInfo); %Number of multi-attribute particles
 
 %% Particle Tracking
@@ -161,8 +161,8 @@ for t = 2:length(fileInfo{1}.filename) % Loop through all time points
         end
         
         % Particle Tracking -----------------------------------------------
-        psptParameter{j}.sizeI = size(I);
-        track{t-1}{j} = TPT(x{t-1}{j},x{t}{j},psptParameter{j},predictor);
+        tptParameter{j}.sizeI = size(I);
+        track{t-1}{j} = TPT(x{t-1}{j},x{t}{j},tptParameter{j},predictor);
         
     end
     
@@ -241,7 +241,7 @@ for i = 1:length(beadParameter)
 end
 
 %%% TPT Parameters
-psptParameter = varargin{3};
+tptParameter = varargin{3};
 
 % Define default values
 knnFD =16;
@@ -261,16 +261,16 @@ for i = 1:length(beadParameter)
     addParameter(p,'nSpheres',nSpheres);
     addParameter(p,'outlrThres',outlrThres);
     
-    parse(p,psptParameter{i})
+    parse(p,tptParameter{i})
     
-    psptParameter{i} = p.Results;
+    tptParameter{i} = p.Results;
     
 end
 
 %%% Outputs
 varargout{1} = fileInfo;
 varargout{2} = beadParameter;
-varargout{3} = psptParameter;
+varargout{3} = tptParameter;
 
 end
 
