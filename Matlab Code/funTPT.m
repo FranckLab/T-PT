@@ -130,12 +130,12 @@ for t = 2:length(fileInfo{1}.filename) % Loop through all time points
         
         if t == 2 % timePoint = 1
             I = loadFile(fileInfo{j},1,beadParameter{j}.randNoise);
-            x{1}{j} = locateBeads(I,beadParameter{j});
+            x{1}{j} = locateParticles(I,beadParameter{j});
             x{1}{j} = radialcenter3dvec(I,x{1}{j},beadParameter{j});
         end
         
         I = loadFile(fileInfo{j},t,beadParameter{j}.randNoise); %Load image
-        x{t}{j} = locateBeads(I,beadParameter{j}); % Detect particles
+        x{t}{j} = locateParticles(I,beadParameter{j}); % Detect particles
         x{t}{j} = radialcenter3dvec(I,x{t}{j},beadParameter{j}); % Localize particles
         
         disp(['    Time to localize particles = ', num2str(toc(tPP)),' seconds']);
