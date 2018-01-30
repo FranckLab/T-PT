@@ -1,37 +1,46 @@
 function [track] = TPT(varargin)
-
-% Position based Single Particle Tracking function. Let the fun begin
 %
+% [track] = TPT(varargin) is the function which links particles between two
+% consecutive image frames
 %
 % INPUTS
 % -------------------------------------------------------------------------
-%   filename:
+%   x0:             Particle position at t = to
+%   x1:             Particle position at t = to+1
+%   tptParameter:   TPT algorithm parameters
+%   predictor:      Displacement field from multi-attribute particles to
+%                   predict displacement field. This can also be extended
+%                   to predict displacement computed from previous time
+%                   points by extrapolation
 %
-% OUTPUTS
-% -------------------------------------------------------------------------
-%   u:
+%  OUTPUTS
+%  ------------------------------------------------------------------------
+%   track:          Array storing particle link from x0 to x1
+%
 
-%%%%%%%%%%% Parse Inputs %%%%%%%%%%%
+%%%% Parse Inputs %%%%
+%-------------------------------------------------------------------------%
+
 x0 = varargin{1};               % Particle position at t=0
 x1 = varargin{2};               % Particle position at t=1
-psptParameter = varargin{3};    % PSPT parameter
-predictor = varargin{4};         % Predictor for displacement field
+tptParameter = varargin{3};     % TPT parameter
+predictor = varargin{4};        % Predictor for displacement field
 % In current form it uses bead displacement computed from previous channel
 % but this can be extended to predictor displacement computed from previous
 % time points by extrapolation.
 
-%Parse psptParameter
-knnFD = psptParameter.knnFD;    % # of NN in feature descriptor
-knnFM = psptParameter.knnFM;    % # of NN in neighborhood similarity comparison
-fmThres = psptParameter.fmThres;    % Threshold for minimum # of common NN in similiarity comparison
-maxIter = psptParameter.maxIter;    % Maximum number of iterations in pspt
-nSpheres = psptParameter.nSpheres;  % Number of spheres in feature descriptor
-outlrThres = psptParameter.outlrThres;  % Residual threshold in outlier removal
-sizeI = psptParameter.sizeI;    % Size of image
+%Parse tpttParameter
+knnFD = tptParameter.knnFD;    % # of NN in feature descriptor
+knnFM = tptParameter.knnFM;    % # of NN in neighborhood similarity comparison
+fmThres = tptParameter.fmThres;    % Threshold for minimum # of common NN in similiarity comparison
+maxIter = tptParameter.maxIter;    % Maximum number of iterations in pspt
+nSpheres = tptParameter.nSpheres;  % Number of spheres in feature descriptor
+outlrThres = tptParameter.outlrThres;  % Residual threshold in outlier removal
+sizeI = tptParameter.sizeI;    % Size of image
 
 
-
-%%%%%%%%%%% Initalize variables for tracking %%%%%%%%%%%
+%%%% Initalize variables for tracking %%%%
+%-------------------------------------------------------------------------%
 
 % For bookeeping operation in tracking
 track = zeros(size(x0(:,1)));   % Store track results
@@ -49,23 +58,26 @@ iter = 1;               % Current iteration number
 
 
 % Create subset for first iteration
-sSize(1) = max(sizeI)/2;    % Subset Size
+sSize(1) = 256;    % Subset Size
 % FD and FM for x0. This doesn't change in future iterations
 [x0FD(~x0track,:),x0FM(:,~x0track)] = knnDescriptor(x0,~x0track,knnFD,knnFM,nSpheres);
-%Save true particle position values. These don't get warped
+% Save true particle position values. These don't get warped
 y1= x1; y0=x0;  
-%Timer
+% Timer
 tPSPT = tic;
 
 
+%%%% TPT iterations %%%%
+%-------------------------------------------------------------------------%
 
-%%%%%%%%%%% PSPT iterations %%%%%%%%%%%
-%     fprintf(['    PSPT based tracking \n']);
+fprintf(['    TPT based tracking \n']);
+
 while iterCrit == 1
+    
     tIter = tic;    %Iterations timer
     
     
-    %%%%%%% STEP 2: Iterative deformation warping
+    %%%% STEP 2: Iterative deformation warping %%%% -----------------------
     
     % Compute displacement from tracked particles
     x0_ = y0(x0track,:); x1_ = y1(track(x0track),:);
@@ -94,7 +106,7 @@ while iterCrit == 1
     
     
     
-    %%%%%%% Setting up grids for particle matching
+    %%%% Setting up grids for particle matching %%%% ----------------------
     
     %Create grid for subset
     sGrid = cell(3,1);
@@ -112,7 +124,9 @@ while iterCrit == 1
     match = cell(nSSgrid,1);    %Match
     ia = cell(nSSgrid,1);       %
     
-    %%%%%%% Particle Matching
+    
+    
+    %%%% Particle Matching %%%% -------------------------------------------
     
     % Iterative particle matching in each subset
     parfor i = 1 : nSSgrid          % Parallel computing
@@ -140,7 +154,7 @@ while iterCrit == 1
         %ia is utlized in particle link verification
     end
     
-    %%%%%%% Link verification
+    %%%% Link verification %%%% -------------------------------------------
     
     % Find unique match and ia (Because match and ia from x0 particles in
     % different subset can point to same x1 particle. Need to remove them)
@@ -177,11 +191,11 @@ while iterCrit == 1
     x1track(track(x0track)) = 1;
     
     
-    %%%%%% Convergence criteria and printing time log
+    %%%%% Convergence criteria and printing time log %%%% -----------------
+    
     nTracked(end + 1) = sum(track>0)/nBeads;    %Fraction of beads tracked
     iterCheck = iter>=maxIter;
     [iterCrit,sSize] = iterCriteria(sSize,nTracked,iterCheck);
-    %     fprintf('Elapsed time (Iteration %d): %0.3f secs.    Partices tracked: %d/%d.  Subset Size = %d\n',iter,toc(tIter),sum(x0track(:)),length(x1),sSize(end-1));
     fprintf('    Elapsed time (Iteration %d): %0.4f secs   Partices tracked: %0.2f   Subset Size = %d\n',iter,toc(tIter),sum(track>0)/length(x1)*100,sSize(end-1));
     iter = iter+1;
     
@@ -192,7 +206,7 @@ end
 %%%%%%% Displacement predictor based on neighbors
 fprintf(['    Displacement predictor based tracking \n']);
 iter = 1;
-while iter<6
+while iter<5
     tIter = tic;    %Iterations timer
     
     u = y1(track(x0track),:) - y0(x0track,:);  % Displacement between tracked pts
@@ -239,9 +253,9 @@ while iter<6
     x0track = track>0;
     x1track(track(x0track)) = 1;
     
-    
     fprintf('    Elapsed time (Iteration %d): %0.4f secs   Partices tracked: %0.2f  \n',iter,toc(tIter),sum(track>0)/length(x1)*100);
     iter = iter+1;    
+
 end
 
 end
