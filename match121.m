@@ -15,8 +15,6 @@ else
     iA = [];
 end
 
-% match = zeros(size(ssmatch));
-% match(ia) = ssmatch(ia);
 uMatch = 0;
 
 end

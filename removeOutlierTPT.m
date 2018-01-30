@@ -1,16 +1,20 @@
 function [track] = removeOutlierPSPT(varargin)
-% Find Outliers in scattered Data based on residual method
+% [track] = removeOutlierPSPT(varargin) Find Outliers in scattered Data 
+% based on residual method by:
+%
+% Westerweel, Jerry, and Fulvio Scarano. "Universal outlier detection for 
+% PIV data." Experiments in fluids 39.6 (2005): 1096-1100.
 %
 % INPUTS
 % -------------------------------------------------------------------------
-%   x0: Scattered point in nD scape at t=0;
-%   x1: Scattered point in nD scape at t=1;
-%   track: 
+%   x0:     Scattered point in nD scape at t=0;
+%   x1:     Scattered point in nD scape at t=1;
+%   track:  Track results
 %   thres:  Threshold value for passing residual
 %
 % OUTPUTS
 % -------------------------------------------------------------------------
-%   idx: Index location of outliers
+%   track:  Only valid track results saved. Outliers are removed
 
 
 %%%%%%%%%%% Parse Inputs %%%%%%%%%%%

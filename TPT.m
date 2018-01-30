@@ -184,7 +184,7 @@ while iterCrit == 1
     end
     
     % Remove Outliers
-    [track] = removeOutlierPSPT(x0,x1,track,outlrThres);
+    [track] = removeOutlierTPT(x0,x1,track,outlrThres);
     
     % Flag tracked particles in x0 and x1
     x0track = track>0;
@@ -203,7 +203,8 @@ end
 
 
     
-%%%%%%% Displacement predictor based on neighbors
+%%%% Displacement predictor based on neighbors %%%% -----------------------
+
 fprintf(['    Displacement predictor based tracking \n']);
 iter = 1;
 while iter<5
@@ -247,7 +248,7 @@ while iter<5
     end
     
     % Remove Outliers
-    [track] = removeOutlierPSPT(y0,y1,track,outlrThres);
+    [track] = removeOutlierTPT(y0,y1,track,outlrThres);
     
     % Flag tracked particles in x0 and x1
     x0track = track>0;
