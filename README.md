@@ -14,4 +14,4 @@ The Topology-based Particle Tracking (T-PT) is a single particle tracking algori
 3. Run the exampleRunFile.m file to track particles in images
 
 ## Contact and support
-For questions, please first refer to [Questions/Issues](https://github.com/FranckLab/T-PT/issues). Add a new question if similar issue hasn't been reported. We shall help you at the earliest. The author's contact information can be found at [Franck Lab](http://franck.engin.brown.edu).
+For questions, please first refer to [Questions/Issues](https://github.com/FranckLab/T-PT/issues). Add a new question if similar issue hasn't been reported. We will provide assistance as promptly as possible. The authors' contact information can be found at [Franck Lab](http://franck.engin.brown.edu).
