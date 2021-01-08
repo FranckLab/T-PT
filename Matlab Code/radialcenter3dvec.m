@@ -11,16 +11,14 @@ function [pts] = radialcenter3dvec(img, x0, beadParameter);
 %
 % INPUTS
 % -------------------------------------------------------------------------
-%   u: cell containing the input displacement field. (u{1:3} = {u_x, u_y,
-%   	u_z})
-%   thr: theshold for passing residiual (default = 2)
-%   epsilon: fluctuation level due to cross-correlation (default = 0.1)
+%   img: greyscale volume image
+%   x0: initial guesses ([m,n,o], pixel-accuracy) for bead centriod locations
+%   beadParameter: structure defining various bead localization parameters
+%                  (see exampleRunFile.m)
 %
 % OUTPUTS
 % -------------------------------------------------------------------------
-%   u: cell containing the displacement field with outliers removed
-%   normFluctValues: normalized fluctuation values based on the universal
-%   outier test.
+%   pts: list of subpixel [m,n,o] values of localizated centriods
 %
 
 
