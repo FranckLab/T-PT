@@ -4,13 +4,13 @@ The Topology-based Particle Tracking (T-PT) is a single particle tracking algori
 
 ### Important pages
 * [Download beta release version v0.1!](https://github.com/FranckLab/T-PT/releases)
-* [Example data](https://drive.google.com/drive/folders/1dOVhKywxHJU4J4b4bpE2S5YIYsctZmdG?usp=sharing)
+* [Example data](https://app.globus.org/file-manager?origin_id=86401693-5974-4013-b498-eb4484e08eb4&origin_path=%2FFranckLab%2FT-PT_example%2F)
 * [Questions/Issues](https://github.com/FranckLab/T-PT/issues)
 * [Franck Lab](http://franck.engin.brown.edu)
 
 ### Running included example case
 1. Make sure that the matlab code files are added to the path in Matlab.
-2. Download and save the [example volume data](https://drive.google.com/drive/folders/1dOVhKywxHJU4J4b4bpE2S5YIYsctZmdG?usp=sharing) in the current directory. 
+2. Download and save the [example volume data](https://app.globus.org/file-manager?origin_id=86401693-5974-4013-b498-eb4484e08eb4&origin_path=%2FFranckLab%2FT-PT_example%2F) in the current directory. 
 3. Run the exampleRunFile.m file to track particles in images
 
 ## Cite
